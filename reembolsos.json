@@ -1,0 +1,162 @@
+[
+  {
+    "id": "r111939038",
+    "num": "111939038",
+    "nombre": "Benjamin Guerra",
+    "monto": 41258,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111937360",
+    "num": "111937360",
+    "nombre": "Benjamin Guerra",
+    "monto": 24995,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111937280",
+    "num": "111937280",
+    "nombre": "Benjamin Guerra",
+    "monto": 24995,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111937220",
+    "num": "111937220",
+    "nombre": "Benjamin Guerra",
+    "monto": 41258,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111937160",
+    "num": "111937160",
+    "nombre": "Benjamin Guerra",
+    "monto": 24995,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111937154",
+    "num": "111937154",
+    "nombre": "Benjamin Guerra",
+    "monto": 41258,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111936349",
+    "num": "111936349",
+    "nombre": "Benjamin Guerra",
+    "monto": 24995,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111935898",
+    "num": "111935898",
+    "nombre": "Benjamin Guerra",
+    "monto": 19995,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111935384",
+    "num": "111935384",
+    "nombre": "Benjamin Guerra",
+    "monto": 19995,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111935258",
+    "num": "111935258",
+    "nombre": "Benjamin Guerra",
+    "monto": 41258,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111935238",
+    "num": "111935238",
+    "nombre": "Benjamin Guerra",
+    "monto": 41258,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111935223",
+    "num": "111935223",
+    "nombre": "Benjamin Guerra",
+    "monto": 41258,
+    "estado": "Pagado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-04",
+    "llego": false
+  },
+  {
+    "id": "r111945622",
+    "num": "111945622",
+    "nombre": "Benjamin Guerra",
+    "monto": 41264,
+    "estado": "Liquidado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-05",
+    "llego": false
+  },
+  {
+    "id": "r111945618",
+    "num": "111945618",
+    "nombre": "Benjamin Guerra",
+    "monto": 41264,
+    "estado": "Liquidado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-05",
+    "llego": false
+  },
+  {
+    "id": "r111945593",
+    "num": "111945593",
+    "nombre": "Benjamin Guerra",
+    "monto": 41264,
+    "estado": "Liquidado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-05",
+    "llego": false
+  },
+  {
+    "id": "r111937336",
+    "num": "111937336",
+    "nombre": "Benjamin Guerra",
+    "monto": 41295,
+    "estado": "Liquidado",
+    "fechaSolicitud": "",
+    "fechaPago": "2026-11-05",
+    "llego": false
+  }
+]

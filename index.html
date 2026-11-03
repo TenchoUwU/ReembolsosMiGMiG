@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estado de Reembolsos</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
-        h1 { color: #444; text-align: center; margin-bottom: 30px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: #007bff; color: white; font-weight: bold; }
-        tr:hover { background-color: #f8f9fa; }
-        .badge { padding: 5px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; display: inline-block; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f6f9; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1 { color: #2c3e50; text-align: center; margin-top: 0; margin-bottom: 25px; font-size: 28px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #eef2f5; }
+        th { background-color: #34495e; color: white; font-weight: 600; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; }
+        tr:hover { background-color: #f8fafc; }
+        .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; text-align: center; min-width: 80px; }
         .badge-pagado { background-color: #d4edda; color: #155724; }
         .badge-liquidado { background-color: #cce5ff; color: #004085; }
         .badge-revision { background-color: #fff3cd; color: #856404; }
-        .loading { text-align: center; padding: 20px; font-size: 18px; color: #666; }
+        .loading { text-align: center; padding: 40px; font-size: 18px; color: #7f8c8d; font-weight: 500; }
+        .text-center { text-align: center; }
     </style>
 </head>
 <body>
@@ -24,7 +25,7 @@
     <div class="container">
         <h1>Estado de Reembolsos Pendientes</h1>
         
-        <div id="loading" class="loading">Cargando información en tiempo real...</div>
+        <div id="loading" class="loading">Sincronizando información en tiempo real...</div>
         
         <table id="tabla-container" style="display: none;">
             <thead>
@@ -43,7 +44,7 @@
     </div>
 
     <script>
-        // ⚠️ PEGA AQUÍ TU ENLACE DE GOOGLE SHEETS EN FORMATO CSV
+        // ⚠️ PEGA AQUÍ TU ENLACE EN FORMATO .CSV QUE COPIASTE AL PUBLICAR EN LA WEB
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1b0KhyLoUzojcUxEz7pC5nDrHsJy7m7nhQRGfWOQuhk8/edit?usp=sharing";
 
         async function cargarDatosDesdeSheets() {
@@ -51,27 +52,32 @@
                 const response = await fetch(GOOGLE_SHEET_CSV_URL);
                 const csvText = await response.text();
                 
-                // Procesar las filas del CSV
-                const filas = csvText.split("\n").map(row => row.split(","));
-                const encabezados = filas[0].map(h => h.trim());
+                // Dividir filas considerando saltos de línea correctos
+                const filas = csvText.split(/\r?\n/).map(row => {
+                    // Expresión regular para separar por comas respetando los textos entre comillas
+                    return row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(",");
+                });
                 
                 const tbody = document.getElementById('tabla-reembolsos');
                 tbody.innerHTML = '';
 
-                // Recorrer las filas omitiendo el encabezado
+                // Empezamos en la fila 1 para saltarnos los encabezados (id, num, nombre...)
                 for (let i = 1; i < filas.length; i++) {
-                    if (filas[i].length < 2 || filas[i][0] === "") continue; 
+                    const fila = filas[i];
+                    if (!fila || fila.length < 2 || fila[0].trim() === "") continue; 
                     
-                    // Mapear columnas basadas en el orden de tu Google Sheets
+                    // Limpieza del formato monetario de Google Sheets ($41,258 -> 41258)
+                    let montoLimpio = fila[3] ? fila[3].replace(/["$$.,]/g, "").trim() : "0";
+                    let montoNumerico = parseInt(montoLimpio) || 0;
+
                     const item = {
-                        id: filas[i][0]?.trim(),
-                        num: filas[i][1]?.trim(),
-                        nombre: filas[i][2]?.trim(),
-                        monto: parseFloat(filas[i][3]?.trim()) || 0,
-                        estado: filas[i][4]?.trim(),
-                        fechaSolicitud: filas[i][5]?.trim(),
-                        fechaPago: filas[i][6]?.trim(),
-                        llego: filas[i][7]?.trim().toLowerCase() === "true" || filas[i][7]?.trim().toLowerCase() === "sí" || filas[i][7]?.trim().toLowerCase() === "si"
+                        num: fila[1] ? fila[1].replace(/"/g, "").trim() : "",
+                        nombre: fila[2] ? fila[2].replace(/"/g, "").trim() : "",
+                        monto: montoNumerico,
+                        estado: fila[4] ? fila[4].replace(/"/g, "").trim() : "En revisión",
+                        fechaSolicitud: fila[5] ? fila[5].replace(/"/g, "").trim() : "",
+                        fechaPago: fila[6] ? fila[6].replace(/"/g, "").trim() : "",
+                        llego: fila[7] ? (fila[7].toLowerCase().includes("true") || fila[7].toLowerCase().includes("sí") || fila[7].toLowerCase().includes("si")) : false
                     };
 
                     const tr = document.createElement('tr');
@@ -83,11 +89,11 @@
                     tr.innerHTML = `
                         <td><b>${item.num}</b></td>
                         <td>${item.nombre}</td>
-                        <td>$${item.monto.toLocaleString()}</td>
+                        <td>$${item.monto.toLocaleString('es-CL')}</td>
                         <td><span class="badge ${estadoClass}">${item.estado}</span></td>
-                        <td>${item.fechaSolicitud || '-'}</td>
-                        <td>${item.fechaPago || '-'}</td>
-                        <td>${item.llego ? 'Sí ✅' : 'No ❌'}</td>
+                        <td class="text-center">${item.fechaSolicitud || '-'}</td>
+                        <td class="text-center">${item.fechaPago || '-'}</td>
+                        <td class="text-center">${item.llego ? 'Sí ✅' : 'No ❌'}</td>
                     `;
                     tbody.appendChild(tr);
                 }
@@ -97,7 +103,7 @@
 
             } catch (error) {
                 console.error("Error al sincronizar con Google Sheets:", error);
-                document.getElementById('loading').innerText = "Error al conectar con la base de datos pública.";
+                document.getElementById('loading').innerText = "Error de sincronización. Asegúrate de haber publicado la hoja en formato CSV.";
             }
         }
 

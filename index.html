@@ -192,19 +192,19 @@ $('#save').onclick=async()=>{
 };
 
 (async()=>{
-  setDateLimits();render();
-  let timer=setTimeout(()=>{if(!loaded){$('#note').innerHTML='<div class="msg">No se pudieron cargar los datos. Abre la página desde tu cuenta e intenta de nuevo.</div>';$('#list').innerHTML=''}},10000);
-  try{
-    const user=await claude.use('user');
-    db=await claude.use('db');
-    if(!db){clearTimeout(timer);$('#note').innerHTML='<div class="msg">Inicia sesión para ver los reembolsos.</div>';$('#list').innerHTML='';return;}
-    canWrite=!!(user&&await user.canEdit());
-    if(canWrite){$('#tabReg').hidden=false;}
-    db.collection('reembolsos').onSnapshot(snap=>{
-      clearTimeout(timer);loaded=true;
-      rows=snap.docs.map(d=>({id:d.id,...d.data()}));render();
-    },()=>{clearTimeout(timer);$('#note').innerHTML='<div class="msg">No se pudieron leer los datos.</div>';});
-  }catch(e){clearTimeout(timer);$('#note').innerHTML='<div class="msg">No se pudo conectar con la base de datos.</div>';}
+  setDateLimits();
+  render();
+  try {
+    const respuesta = await fetch('reembolsos.json');
+    if (!respuesta.ok) throw new Error('Error al cargar el archivo');
+    
+    rows = await respuesta.json();
+    loaded = true;
+    render();
+  } catch(e) {
+    $('#note').innerHTML='<div class="msg">No se pudo cargar el archivo reembolsos.json. Asegúrate de que esté en la misma carpeta.</div>';
+    $('#list').innerHTML='';
+  }
 })();
 </script>
 </body>
